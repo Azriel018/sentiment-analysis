@@ -1,4 +1,4 @@
-name: Sentiment Analysis Job
+name: Scheduled Sentiment Analysis
 
 on:
   schedule:
@@ -22,4 +22,31 @@ jobs:
           pip install supabase vaderSentiment pandas
 
       - name: Run Sentiment Analysis
-        run: python your_script.py
+        run: name: Scheduled Sentiment Analysis
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # This cron expression means the workflow will run every Sunday at midnight UTC
+
+jobs:
+  analyze_sentiments:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install supabase
+          pip install vaderSentiment
+
+      - name: Run Sentiment Analysis Script
+        run: .github/your_script.py  # Update this with the correct path to your script
+
